@@ -1,0 +1,7 @@
+.card_faixa{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-size-lg);
+}

@@ -1,0 +1,14 @@
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #1f8f4a #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-gray-light);
+  color: var(--color-black);
+  overflow-x: hidden;
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+}

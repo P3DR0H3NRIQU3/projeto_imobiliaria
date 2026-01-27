@@ -1,0 +1,17 @@
+.btn_banner{
+    border-radius: 3vh;
+    color: var(--color-white);
+    background-color: var(--color-green);
+    font-size: var(--font-size-sm);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border: none;
+}
+.txt_btn{
+    color: var(--color-white);
+    font-size: var(--font-size-smd);
+    font-weight: var(--font-weight-500);
+}

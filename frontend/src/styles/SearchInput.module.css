@@ -1,0 +1,22 @@
+.cont_input{
+    display: flex;
+    width: 20%;
+    height: 50%;
+    background-color: var(--color-gray);
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 30px;
+}
+.input{
+    width: 80%;
+    height: 70%;
+    background-color: var(--color-gray);
+    border: none;
+    border-radius: 100vh;
+
+    outline: none;
+}
+.img_input{
+    width: auto;
+    height: 50%;
+}

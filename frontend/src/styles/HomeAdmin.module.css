@@ -1,0 +1,101 @@
+.home_admin{
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+}
+.container{
+    width: 100%;
+    gap: 5vh;
+    height: auto;
+    padding-top: 15vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.txt_name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: var(--font-size-lmd);
+    font-weight: var(--font-weight-500);
+    width: 80%;
+    height: 10vh
+}
+.btn_cadastrar{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 20%;
+    height: 10vh;
+    box-shadow: 0 0 2.5px rgba(0, 0, 0, 0.3);
+    border-radius: 30px;
+    background-color: var(--color-white);
+}
+.txt_btn{
+    font-weight: var(--font-weight-500);
+    
+    font-size: var(--font-size-smd);
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+}
+.cont_txts{
+    width: 80%;
+    height: 5vh;
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: space-evenly;
+    align-items: center;
+}
+.txt_imoveis{
+    font-weight: var(--font-weight-500);
+    font-size: var(--font-size-lmd);
+    
+}
+.subtxt_imoveis{
+    font-size: var(--font-size-sm);
+}
+
+.card{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.img_card{
+    width: 20vw;
+    height: auto;
+}
+.cont_txt{
+    width: 20vw;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.desc_imovel{
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-500);
+    color: var(--color-gray-dark);
+    width: 70%;
+}
+.price_imovel{
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bd);
+    color: var(--color-black);
+}
+.despesas_imovel{
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bd);
+    color: var(--color-black);
+}
+.end_imovel{
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-500);
+    color: var(--color-gray-dark);
+    width: 70%;
+}

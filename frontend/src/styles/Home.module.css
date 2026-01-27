@@ -1,0 +1,276 @@
+
+
+.main_landing{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.banner{
+    width: 100vw;
+    height: 110vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+}
+
+.bg_banner{
+    width: 100vw;
+    z-index: 0;
+    position: absolute;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../../public/bg_banner.jpg");
+    filter: brightness(50%);
+    background-size: cover;
+}
+.banner .container{
+    width: 80%;
+    height: 45%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    z-index: 1;
+}
+
+.txt_banner{
+    color: var(--color-white);
+    font-size: var(--font-size-lmd);
+    font-weight: var(--font-weight-bd);
+    width: 45%;
+}
+.subtxt_banner{
+    color: var(--color-white);
+    font-size: var(--font-size-smd);
+    font-weight: 300;
+    width: 45%;
+}
+
+
+.buscar_imoveis{
+    width: 100%;
+    height: 100vh;
+}
+
+.buscar_imoveis .container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.buscar_imoveis .container .bg_buscar{
+    height: 80%;
+    width: 30%;    
+    border: 5px solid var(--color-green);
+    border-radius: 500px 500px 50px 50px;
+}
+.buscar_imoveis .container .form_buscar{
+    width: 30%;
+    height: 80%;
+    background-color: var(--color-white);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    border-radius: 2.5rem;
+    display: flex;
+    padding: 5vh;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.buscar_imoveis .container .form_buscar .txt_buscar{
+    width: 100%;
+    
+    font-size: var(--font-size-lmd);
+    font-weight: var(--font-weight-bd);
+}
+.buscar_imoveis .container .form_buscar .subtxt_buscar{
+    width: 100%;
+    font-size: var(--font-size-smd);
+    font-weight: var(--font-weight-500);
+    
+}
+.buscar_imoveis .container .form_buscar .hr_buscar{
+    width: 100%;
+    color: var(--color-gray);
+}
+.buscar_imoveis .container .form_buscar .cont_select_buscar{
+    width: 90%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 2vh;
+    border: 1px solid var(--color-gray);
+    border-radius: 10px;
+}
+.buscar_imoveis .container .form_buscar .cont_select_buscar .cont_img_txt{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+}
+.buscar_imoveis .container .form_buscar .cont_select_buscar .select_div{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.buscar_imoveis .container .form_buscar .cont_select_buscar .select_buscar{
+    width: 100%;
+    border: none;
+    outline: none;
+    appearance: none;
+    padding-left: 0.5vh;
+
+}
+.txt_select{
+    width: 100%;
+}
+.buscar_imoveis .container .form_buscar .cont_selects_cf_qt{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 15%;
+}
+.buscar_imoveis .container .form_buscar .cont_selects_cf_qt .cont_select_buscar{
+    width: 40%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.destaques{
+    width: 100%;
+    height: 110vh;
+}
+.destaques .container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1vh;
+}
+
+.destaques .container .txt_destaque{
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bd);
+}
+
+.destaques .container .cont_carousel{
+    width: 60%;
+    height: 90%;
+    gap: 5vh;
+}
+.destaques .container .cont_carousel hr{
+    margin: 3vh;
+    color: var(--color-gray)
+}
+
+.faixa{
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-green);
+    color: var(--color-white)
+}
+
+.quem_sou{
+    height: 90vh;
+    width: 100%;
+    padding: 2vh;
+}
+.quem_sou .container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.cont_txts{
+    width: 50%;
+}
+.txt_quem_sou{
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bd);
+}
+.subtxt_quem_sou{
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bd);
+}
+.desc_quem_sou{
+    font-size: var(--font-size-sm);
+    width: 70%;
+}
+.img_quem_sou{
+    border: 4px solid var(--color-green);
+    border-radius: 50px;
+}
+
+.fale_conosco{
+    width: 100%;
+    height: 85vh;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.fale_conosco .container{
+    width: 100%;
+    height: 70%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+
+.txt_fale_conosco{
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bd);
+    width: 50%;
+    text-align: center;
+}
+.subtxt_fale_conosco{
+    width: 40%;
+    text-align: center;
+    font-size: var(--font-size-smd);
+    font-weight: var(--font-weight-500);
+}
+.btn_fale_conosco{
+    width: 30%;
+    padding: 3vh;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(to right, var(--color-green), #104828);
+    font-size: var(--font-size-smd);
+    font-weight: var(--font-weight-bd);
+    color: var(--color-white);
+    transition: ease-in-out 300ms;
+}
+
+.btn_fale_conosco:hover{
+    transition: ease-in-out 300ms;
+    box-shadow: 0 0 10 10px rgba(0, 126, 2, 0.3);
+}
