@@ -5,7 +5,6 @@ import Login  from "./pages/Login";
 import HomeAdmin  from "./pages/admin/HomeAdmin";
 import RegisterImovel from "./pages/admin/RegisterImovel";
 function App() {
-  document.title = "Daniel | Imoveis"
   return (
       <BrowserRouter>
         <Routes>

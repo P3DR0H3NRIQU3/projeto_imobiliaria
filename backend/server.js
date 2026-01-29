@@ -16,6 +16,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+
+var authMiddleware = require("./src/middlewares/authMiddleware");
+
 var homeRouter = require("./src/routes/public/home");
 var adminRouter = require("./src/routes/admin/admin");
 var publicImoveisRouter = require("./src/routes/public/imoveis");

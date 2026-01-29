@@ -1,7 +1,13 @@
 import styles from "../styles/Header.module.css";
 import { User } from "lucide-react";
+import { useState, useEffect } from 'react';
+import ModalLogout from "./ModalLogout";
 
 export default function HeaderAdmin() {
+
+    const [logout, setLogout] = useState(false);
+
+
     return (
         <div className={styles.header}>
             <div className={styles.cont_logo}>
@@ -14,7 +20,7 @@ export default function HeaderAdmin() {
                 <ul className={styles.cont_links}>
                     <a className={styles.link_header} href="/admin"><li >Início</li></a>
                 </ul>
-                <a href="/login">
+                <a onClick={() => setLogout(true)}>
                     <button className={styles.btn_header}>
                         <User />
                         <p>Sair</p>
@@ -22,6 +28,9 @@ export default function HeaderAdmin() {
                 </a>
 
             </div>
+            { logout === true &&
+                <ModalLogout mensagem="Você saiu da sua conta" icon="logout" />
+            }
         </div>
     )
 }

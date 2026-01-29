@@ -10,24 +10,26 @@ export default function HomeAdmin() {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         async function checarUsuario() {
-            fetch('http://localhost:3333/admin/validar',
-                {
-                    method: 'GET',
-                    credentials: 'include'
+            try {
+                const response = await fetch('http://localhost:3333/admin/validar',
+                    {
+                        method: 'GET',
+                        credentials: 'include'
+                    }
+                )
+                console.log("Status recebido:", response.status);
+                if (response.ok) {
+                    setLoading(false);
                 }
-            )
-                .then(function (response) {
-                    if (response.ok) {
-                        setLoading(false);
-                    } else {
-                        navigate('/login')
-                    }
-                })
-                .catch(err => {
-                    if (err.response.status === 401) {
-                        navigate('/login')
-                    }
-                });
+                else{
+                    console.warn("Token inválido, redirecionando...");
+                    return navigate('/login')
+                }
+
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                navigate('/login')
+            }
         }
         checarUsuario()
     }, []);

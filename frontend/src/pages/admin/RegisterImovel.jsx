@@ -1,9 +1,10 @@
 import styles from "../../styles/RegisterImovel.module.css";
 import HeaderAdmin from "../../components/HeaderAdmin";
 import { useState, useEffect } from 'react';
-import { Plus } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from "swiper/react";
+import RedirecionamentoLogin from "../../components/ModalLogout";
+import ModalLogout from "../../components/ModalLogout";
 
 export default function RegisterImovel() {
     var navigate = useNavigate()
@@ -11,31 +12,32 @@ export default function RegisterImovel() {
     const [escolhido, setEscolhido] = useState("");
     const [ativo, setAtivo] = useState("none");
     const [tamanho, setTamanho] = useState("10vh");
+    const [modal, setModal] = useState(false);
 
     const [tipoImovel, setTipoImovel] = useState("apartamento");
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         async function checarUsuario() {
-            fetch('http://localhost:3333/admin/validar',
-                {
-                    method: 'GET',
-                    credentials: 'include'
+            try {
+                const response = await fetch('http://localhost:3333/admin/validar',
+                    {
+                        method: 'GET',
+                        credentials: 'include'
+                    }
+                )
+                console.log("Status recebido:", response.status);
+                if (response.ok) {
+                    setLoading(false);
                 }
-            )
-                .then(function (response) {
-                    if (response.ok) {
-                        setLoading(false);
-                    } else {
-                        navigate('/login')
-                        alert("TÁ ERRADO PAE")
-                    }
-                })
-                .catch(err => {
-                    if (err.response.status === 401) {
-                        navigate('/login')
-                        alert("TÁ ERRADO PAE")
-                    }
-                });
+                else {
+                    console.warn("Token inválido, redirecionando...");
+                    return navigate('/login')
+                }
+
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                navigate('/login')
+            }
         }
         checarUsuario()
     }, []);
@@ -44,131 +46,118 @@ export default function RegisterImovel() {
     }
 
 
-    function listarImagens(evento) {
-        var arquivos = evento.target.files
-        console.log("arquivos", arquivos);
-        arquivos = Array.from(arquivos)
-        var urls = []
-        for (var i = 0; i < arquivos.length; i++) {
-            var arquivoAtual = arquivos[i];
-            var cont = i + 1
-            urls.push([cont, URL.createObjectURL(arquivoAtual)])
-        }
-        console.log("imgs", urls);
-        if(!urls){
-            return alert("Erro ao carregar imagens!")
-        }
-        
-        setAtivo("flex")
-        setTamanho("50vh")
-        setImagens(urls)
-    }
 
     return (
         <main className={styles.register_imovel}>
             <HeaderAdmin />
             <div className={styles.container}>
-                <div className={styles.form_register}>
+                {modal === true &&
+                    <ModalLogout mensagem="O tempo da sua sessão expirou! Aguarde enquanto te redirecionamos ao login!" icon="timer" />
+                }
+                <form action="" onSubmit={processarCampos} className={styles.form_register}>
                     <p className={styles.txt_register}>Informações do imóvel</p>
+                    <p>Tipo imóvel <span className={styles.span_asterisco}>*</span></p>
                     <div className={styles.cont_checkbox}>
                         <div className={styles.radio}>
                             <p className={styles.desc_register}>Apartamento</p>
-                            <input type="radio" onChange={() => setTipoImovel("apartamento")} name="tipo_imovel" id="radio_apartamento" />
+                            <input type="radio" onChange={() => setTipoImovel("apartamento")} name="tipo_imovel" value={"apartamento"} required id="radio_apartamento" />
                         </div>
                         <div className={styles.radio}>
                             <p className={styles.desc_register}>Casa</p>
-                            <input type="radio" onChange={() => setTipoImovel("casa")} name="tipo_imovel" id="radio_casa" />
+                            <input type="radio" onChange={() => setTipoImovel("casa")} name="tipo_imovel" value={"casa"} required id="radio_casa" />
                         </div>
                     </div>
                     <div className={styles.input}>
-                        <p className={styles.txt_input}>Título do anúncio</p>
-                        <input type="text" className={styles.inputs_register} placeholder="Insira o titulo do anúncio:" name="input_titulo" id="inp_titulo" />
+                        <p className={styles.txt_input}>Título do anúncio <span className={styles.span_asterisco}>*</span></p>
+                        <input type="text" minLength={5} className={styles.inputs_register} placeholder="Insira o titulo do anúncio:" required name="titulo" id="inp_titulo" />
                     </div>
                     <div className={styles.cont_inputs}>
                         <div className={styles.input}>
-                            <p className={styles.txt_input}>Quantidade de quartos</p>
-                            <input type="text" className={styles.inputs_register} placeholder="Insira a quantidade de quartos:" name="input_quartos" id="inp_quartos" />
+                            <p className={styles.txt_input}>Quantidade de quartos <span className={styles.span_asterisco}>*</span></p>
+                            <input type="number" min={0} className={styles.inputs_register} placeholder="Insira a quantidade de quartos:" required name="quartos" id="inp_quartos" />
                         </div>
                         <div className={styles.input}>
                             <p className={styles.txt_input}>Quantidade de suítes</p>
-                            <input type="text" className={styles.inputs_register} placeholder="Insira a quantidade de suites:" name="input_suites" id="inp_suites" />
+                            <input type="number" min={0} className={styles.inputs_register} placeholder="Insira a quantidade de suites:" name="suites" id="inp_suites" />
                         </div>
                     </div>
                     <div className={styles.cont_inputs}>
                         <div className={styles.input}>
-                            <p className={styles.txt_input}>Quantidade de banheiros</p>
-                            <input type="text" className={styles.inputs_register} placeholder="Insira a quantidade de banheiros:" name="input_banheiros" id="inp_banheiros" />
+                            <p className={styles.txt_input}>Quantidade de banheiros <span className={styles.span_asterisco}>*</span></p>
+                            <input type="number" min={0} className={styles.inputs_register} required placeholder="Insira a quantidade de banheiros:" name="banheiros" id="inp_banheiros" />
                         </div>
                         <div className={styles.input}>
                             <p className={styles.txt_input}>Quantidade de garagem</p>
-                            <input type="text" className={styles.inputs_register} placeholder="Insira a quantidade de garagem:" name="input_garagem" id="inp_garagem" />
+                            <input type="number" min={0} className={styles.inputs_register} placeholder="Insira a quantidade de garagem:" name="vagas_garagem" id="inp_garagem" />
                         </div>
                     </div>
                     <div className={styles.cont_inputs}>
                         <div className={styles.input}>
-                            <p className={styles.txt_input}>Área total em m²</p>
-                            <input type="text" className={styles.inputs_register} placeholder="Insira a area total:" name="input_areattl" id="inp_areattl" />
+                            <p className={styles.txt_input}>Área total em m² <span className={styles.span_asterisco}>*</span></p>
+                            <input type="number" min={0} className={styles.inputs_register} required placeholder="Insira a area total:" name="area_m2" id="inp_areattl" />
                         </div>
-                        <div className={styles.input}>
-                            <p className={styles.txt_input}>Área construída em m²</p>
-                            <input type="text" className={styles.inputs_register} placeholder="Insira a area construida:" name="input_areactd" id="inp_areactd" />
-                        </div>
+                        {tipoImovel === "casa" &&
+                            <div className={styles.input}>
+                                <p className={styles.txt_input}>Área construída em m²</p>
+                                <input type="number" min={0} className={styles.inputs_register} placeholder="Insira a area construida:" name="area_construida" id="inp_areactd" />
+                            </div>
+                        }
                     </div>
                     <div className={styles.input}>
-                        <p className={styles.txt_input}>Valor do imóvel em R$</p>
-                        <input type="text" className={styles.inputs_register} placeholder="Insira o valor do imóvel:" name="input_valor" id="inp_valor" />
+                        <p className={styles.txt_input}>Valor do imóvel em R$ <span className={styles.span_asterisco}>*</span></p>
+                        <input type="number" min={0} className={styles.inputs_register} required placeholder="Insira o valor do imóvel:" name="valor_imovel" id="inp_valor" />
                     </div>
                     <div className={styles.check}>
                         <p className={styles.desc_register}>Aceita financiamento</p>
-                        <input type="checkbox" name="financiamento" id="check_financiamento" />
+                        <input type="checkbox" name="aceita_financiamento" id="check_financiamento" />
                     </div>
                     <div className={styles.check}>
                         <p className={styles.desc_register}>Aceita FGTS</p>
-                        <input type="checkbox" name="fgts" id="check_fgts" />
+                        <input type="checkbox" name="aceita_fgts" id="check_fgts" />
                     </div>
                     <div className={styles.input}>
-                        <p className={styles.txt_input}>Rua</p>
-                        <input type="text" className={styles.inputs_register} placeholder="Insira a rua:" name="input_rua" id="inp_rua" />
+                        <p className={styles.txt_input}>Rua <span className={styles.span_asterisco}>*</span></p>
+                        <input type="text" className={styles.inputs_register} required placeholder="Insira a rua:" name="rua" id="inp_rua" />
                     </div>
                     <div className={styles.cont_inputs}>
                         <div className={styles.input}>
                             <p className={styles.txt_input}>Número</p>
-                            <input type="text" className={styles.inputs_register} placeholder="Insira o numero:" name="input_numero" id="inp_numero" />
+                            <input type="text" className={styles.inputs_register} placeholder="Insira o numero:" name="numero" id="inp_numero" />
                         </div>
                         <div className={styles.input}>
                             <p className={styles.txt_input}>CEP</p>
-                            <input type="text" className={styles.inputs_register} placeholder="Insira o cep:" name="input_cep" id="inp_cep" />
+                            <input type="text" maxLength={8} className={styles.inputs_register} placeholder="Insira o cep:" name="cep" id="inp_cep" />
                         </div>
                     </div>
                     <div className={styles.cont_inputs}>
                         <div className={styles.input}>
-                            <p className={styles.txt_input}>Bairro</p>
-                            <input type="text" className={styles.inputs_register} placeholder="Insira o bairro:" name="input_bairro" id="inp_bairro" />
+                            <p className={styles.txt_input}>Bairro <span className={styles.span_asterisco}>*</span></p>
+                            <input type="text" className={styles.inputs_register} required placeholder="Insira o bairro:" name="bairro" id="inp_bairro" />
                         </div>
                         <div className={styles.input}>
-                            <p className={styles.txt_input}>Cidade</p>
-                            <input type="text" className={styles.inputs_register} placeholder="Insira a cidade:" name="input_cidade" id="inp_cidade" />
+                            <p className={styles.txt_input}>Cidade <span className={styles.span_asterisco}>*</span></p>
+                            <input type="text" className={styles.inputs_register} placeholder="Insira a cidade:" name="cidade" id="inp_cidade" />
                         </div>
                     </div>
                     <div className={styles.check}>
                         <p className={styles.desc_register}>Perto da estação</p>
-                        <input type="checkbox" name="estacao" id="check_estacao" />
+                        <input type="checkbox" name="perto_estacao" id="check_estacao" />
                     </div>
                     {tipoImovel === "apartamento" &&
                         <div className={styles.cont_inputs}>
                             <div className={styles.input}>
                                 <p className={styles.txt_input}>Andar</p>
-                                <input type="text" className={styles.inputs_register} placeholder="Insira o andar:" name="input_andar" id="inp_andar" />
+                                <input type="text" className={styles.inputs_register} placeholder="Insira o andar:" name="andar" id="inp_andar" />
                             </div>
                             <div className={styles.input}>
-                                <p className={styles.txt_input}>Valor do condomínio</p>
-                                <input type="text" className={styles.inputs_register} placeholder="Insira o valor do condominio:" name="input_condominio" id="inp_condominio" />
+                                <p className={styles.txt_input}>Valor do condomínio <span className={styles.span_asterisco}>*</span></p>
+                                <input type="text" className={styles.inputs_register} required placeholder="Insira o valor do condominio:" name="valor_condominio" id="inp_condominio" />
                             </div>
                         </div>
                     }
                     <div className={styles.check}>
                         <p className={styles.desc_register}>Possui elevador</p>
-                        <input type="checkbox" name="elevador" id="check_elevador" />
+                        <input type="checkbox" name="possui_elevador" id="check_elevador" />
                     </div>
                     <div className={styles.check}>
                         <p className={styles.desc_register}>Churrasqueira</p>
@@ -215,8 +204,8 @@ export default function RegisterImovel() {
                         <input type="checkbox" name="iptu_pago" id="check_iptu_pago" />
                     </div>
                     <div className={styles.select}>
-                        <p className={styles.desc_register}>Status do imóvel</p>
-                        <select name="status" id="select_status">
+                        <p className={styles.desc_register}>Status do imóvel <span className={styles.span_asterisco}>*</span></p>
+                        <select required name="status" id="select_status">
                             <option value="disponivel">Disponível</option>
                             <option value="indisponivel">Indisponível</option>
                         </select>
@@ -227,34 +216,114 @@ export default function RegisterImovel() {
                     </div>
 
                     <div className={styles.input} id={styles.descricao}>
-                        <p className={styles.desc_register}>Descrição do imóvel</p>
-                        <input type="text" className={styles.inputs_register} placeholder="Insira a descrição:" name="input_descricao" id={styles.input_descricao} />
+                        <p className={styles.desc_register}>Descrição do imóvel <span className={styles.span_asterisco}>*</span></p>
+                        <input type="text" required className={styles.inputs_register} placeholder="Insira a descrição:" name="descricao" id={styles.input_descricao} />
                     </div>
 
-                    <div className={styles.cont_imgs} style={{height: tamanho}} id="cont_imgs">
-                        <p className={styles.desc_register}>Imagens/fotos</p>
-                        <div className={styles.cont_image} style={{display: ativo}}>
-                            <Swiper navigation slidesPerView={2}>
+                    <div className={styles.cont_imgs} style={{ height: tamanho }} id="cont_imgs">
+                        <p className={styles.desc_register}>Imagens/fotos <span className={styles.span_asterisco}>*</span></p>
+                        <p className={styles.txt_selecione} style={{ display: ativo }}>Selecione a foto destaque: <span className={styles.span_asterisco}>*</span></p>
+                        <div className={styles.cont_image} style={{ display: ativo }}>
+                            <Swiper slidesPerView={"auto"} spaceBetween={30}>
                                 {imagens.map(imagem => (
-                                    <SwiperSlide>
+                                    <SwiperSlide className={styles.swipper_slide}>
                                         <div className={styles.card}>
                                             <p className={styles.txt_ordem}>{imagem[0]}</p>
                                             <img className={styles.img} src={imagem[1]} alt="" />
-                                            <input type="radio" onChange={e => setEscolhido(e.target.value)} value={imagem[0]} name="inp_img" id="" />
+                                            <input type="radio" required onChange={e => setEscolhido(e.target.value)} value={imagem[0] - 1} name="img_destaque" id="" />
                                         </div>
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
                         </div>
-                        <input type="file" onChange={(e) => listarImagens(e)} accept="image/*" multiple name="input_descricao" id="input_descricao" />
+                        <input type="file" required onChange={(e) => listarImagens(e)} accept="image/*" multiple name="imagens_imovel" id="input_imagens" />
                     </div>
-
-                    <button className={styles.btn_cadastrar}>Cadastrar</button>
-
-                </div>
+                    <button className={styles.btn_cadastrar} type="submit">Cadastrar</button>
+                </form>
             </div>
-
         </main >
     )
+
+
+    function listarImagens(evento) {
+        var arquivos = evento.target.files
+        console.log("arquivos", arquivos);
+        arquivos = Array.from(arquivos)
+        var urls = []
+        for (var i = 0; i < arquivos.length; i++) {
+            var arquivoAtual = arquivos[i];
+            var cont = i + 1
+            urls.push([cont, URL.createObjectURL(arquivoAtual)])
+        }
+        console.log("imgs", urls);
+        if (!urls) {
+            return alert("Erro ao carregar imagens!")
+        }
+
+        setAtivo("flex")
+        setTamanho("50vh")
+        setImagens(urls)
+    }
+
+    function processarCampos(evento) {
+        evento.preventDefault()
+        console.log(evento.target);
+        const dadosForm = new FormData(evento.target)
+
+        const checkBoxes = [
+            "aceita_financiamento",
+            "aceita_fgts",
+            "perto_estacao",
+            "possui_elevador",
+            "churrasqueira",
+            "area_gourmet",
+            "varanda",
+            "ar_condicionado",
+            "academia",
+            "salao_festas",
+            "area_lazer",
+            "portaria_24h",
+            "mobiliado",
+            "escritura",
+            "iptu_pago",
+            "destaque",
+        ]
+        checkBoxes.forEach(check => {
+            if (!dadosForm.has(check)) {
+                dadosForm.append(check, "false")
+            } else {
+                dadosForm.set(check, "true")
+            }
+        });
+
+        const listaImagens = dadosForm.getAll("imagens_imovel")
+
+        listaImagens.forEach(img => {
+            dadosForm.append("fotos", img)
+        });
+
+        dadosForm.delete('imagens_imovel')
+
+        console.log(Object.fromEntries(dadosForm.entries('')));
+        console.log(dadosForm.getAll('fotos'));
+
+        cadastrarImovel(dadosForm)
+
+    }
+    async function cadastrarImovel(dados) {
+        try {
+            var response = await fetch('http://localhost:3333/admin/register', {
+                method: 'POST',
+                credentials: 'include',
+                body: dados
+            })
+
+            console.log("SUCESSO!", response);
+
+        } catch (error) {
+            console.log("ERRO!", error);
+
+        }
+    }
 
 }

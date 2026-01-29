@@ -9,6 +9,8 @@
   --color-gray-dark: #999999;
   --color-black-deep: #1A1A1A;
   --color-green: #27AE60;
+  --color-orange: #ff6600;
+  --color-green-light: #e2ffd9;
   --color-white: #ffffff;
   --font-size-lg: 3rem;
   --font-size-lmd: 2.5rem;
@@ -20,6 +22,11 @@
   --font-weight-500: 500;
 }
 
+button{
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+
+}
+
 html {
   scrollbar-width: thin;
   scrollbar-color: #27AE60 #ffffff;
@@ -29,9 +36,9 @@ body {
   margin: 0;
   padding: 0;
   background: var(--color-gray-light);
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
   color: var(--color-black);
   overflow-x: hidden;
-  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
 
 a {
