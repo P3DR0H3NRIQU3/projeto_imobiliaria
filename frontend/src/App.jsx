@@ -4,6 +4,7 @@ import Imoveis from "./pages/imoveis";
 import Login  from "./pages/Login";
 import HomeAdmin  from "./pages/admin/HomeAdmin";
 import RegisterImovel from "./pages/admin/RegisterImovel";
+import ImovelAdmin from "./pages/admin/ImovelAdmin";
 function App() {
   return (
       <BrowserRouter>
@@ -13,6 +14,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<HomeAdmin />} />
           <Route path="/admin/register" element={<RegisterImovel />} />
+          <Route path="/admin/imovel/:slug" element={<ImovelAdmin />} />
         </Routes>
       </BrowserRouter>
   )

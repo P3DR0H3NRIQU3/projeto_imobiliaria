@@ -8,33 +8,63 @@ export default function HomeAdmin() {
     var navigate = useNavigate()
 
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        async function checarUsuario() {
-            try {
-                const response = await fetch('http://localhost:3333/admin/validar',
-                    {
-                        method: 'GET',
-                        credentials: 'include'
-                    }
-                )
-                console.log("Status recebido:", response.status);
-                if (response.ok) {
-                    setLoading(false);
+    const [imoveis, setImoveis] = useState([]);
+    async function checarUsuario() {
+        try {
+            const response = await fetch('http://localhost:3333/admin/validar',
+                {
+                    method: 'GET',
+                    credentials: 'include'
                 }
-                else{
-                    console.warn("Token inválido, redirecionando...");
-                    return navigate('/login')
-                }
-
-            } catch (error) {
-                console.error("Erro na requisição:", error);
-                navigate('/login')
+            )
+            console.log("Status recebido:", response.status);
+            if (response.ok) {
+                setLoading(false);
             }
+            else {
+                console.warn("Token inválido, redirecionando...");
+                return navigate('/login')
+            }
+
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+            navigate('/login')
         }
+    }
+    async function buscarImoveis() {
+        try {
+            const response = await fetch('http://localhost:3333/admin/buscar-imoveis',
+                {
+                    method: 'GET',
+                    credentials: 'include'
+                }
+            )
+            if (response.ok) {
+                const respostaBD = await response.json()
+                setImoveis(respostaBD.dados)
+                console.log(imoveis);
+            }
+            else {
+                throw new Error(`Erro ao buscar imóveis: ${response.error}`)
+            }
+
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+        }
+    }
+    useEffect(() => {
+        buscarImoveis()
         checarUsuario()
     }, []);
     if (loading) {
         return <div style={{ width: "100%", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}><h1>Validando suas credenciais...</h1></div>
+    }
+
+
+    async function irParaImovel(imovel) {
+        navigate(`/admin/imovel/slug=${imovel.slug}`, {
+            state: { imovelDados: imovel }
+        })
     }
 
     function navigateRegister() {
@@ -51,32 +81,29 @@ export default function HomeAdmin() {
                     <Plus className={styles.icon_btn} color="#27AE60" />
                 </button>
                 <div className={styles.cont_txts}>
-                    <p className={styles.txt_imoveis}><span className={styles.qte_imoveis}>231</span> imóveis</p>
+                    <p className={styles.txt_imoveis}>{imoveis != [] && <span className={styles.qte_imoveis}>{imoveis.length}</span>} imóveis</p>
                     <p className={styles.subtxt_imoveis}>Disponíveis em <span className={styles.cidade}>Osasco</span></p>
                 </div>
                 <div className={styles.cont_cards}>
-                    <div className={styles.card}>
-                        <img
-                            src="/img_carousel.png"
-                            alt="Imagem 1"
-                            className={styles.img_card}
-                            width={500}
-                            height={400}
-                        />
+                    {imoveis != [] &&
+                        imoveis.map(imovel => {
+                            return (<div className={styles.card} key={imovel.id_imovel} onClick={e => (irParaImovel(imovel))}>
+                                <img
+                                    src={`https://goegrngmpfnwiuwzoksk.supabase.co/storage/v1/object/public/${imovel.fotos_imovel}`}
+                                    alt="Imagem card"
+                                    className={styles.img_card}
+                                    width={500}
+                                    height={400}
+                                />
 
-                        <div className={styles.cont_txt}>
-                            <p className={styles.desc_imovel}>
-                                Apartamento à venda de 150m² localizado na Vila São Francisco próximo à USP
-                            </p>
-                            <p className={styles.price_imovel}>R$1.400.000</p>
-                            <p className={styles.despesas_imovel}>
-                                R$1.450 Condomínio + IPTU
-                            </p>
-                            <p className={styles.end_imovel}>
-                                Avenida Doutor Cândido Motta Filho, Cidade São Francisco · São Paulo
-                            </p>
-                        </div>
-                    </div>
+                                <div className={styles.cont_txt}>
+                                    <p className={styles.desc_imovel}>{imovel.titulo}</p>
+                                    <p className={styles.price_imovel}>{imovel.valor_imovel?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+                                    <p className={styles.end_imovel}>{imovel.rua} - {imovel.bairro}</p>
+                                </div>
+                            </div>)
+                        })
+                    }
                 </div>
             </div>
 

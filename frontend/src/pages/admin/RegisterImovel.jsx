@@ -3,9 +3,7 @@ import HeaderAdmin from "../../components/HeaderAdmin";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from "swiper/react";
-import RedirecionamentoLogin from "../../components/ModalLogout";
 import ModalLogout from "../../components/ModalLogout";
-
 export default function RegisterImovel() {
     var navigate = useNavigate()
     const [imagens, setImagens] = useState([]);
@@ -240,9 +238,12 @@ export default function RegisterImovel() {
                     </div>
                     <button className={styles.btn_cadastrar} type="submit">Cadastrar</button>
                 </form>
+                
             </div>
         </main >
     )
+
+
 
 
     function listarImagens(evento) {
@@ -317,12 +318,23 @@ export default function RegisterImovel() {
                 credentials: 'include',
                 body: dados
             })
+            
+            console.log(response);
+            
+            const resultado = await response.json();
+            console.log(resultado);
 
-            console.log("SUCESSO!", response);
-
+            if (response.ok) {
+                alert(resultado.message)
+                navigate("/admin")
+            } else{
+                throw new Error(`Erro ao cadastrar imóvel! ${resultado.erro}`)
+            }
+            
+            
         } catch (error) {
             console.log("ERRO!", error);
-
+            alert(error.message)
         }
     }
 

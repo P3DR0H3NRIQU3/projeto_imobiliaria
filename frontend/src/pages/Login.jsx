@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import { useState } from 'react';
 import { CircleAlert, BadgeCheck } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
+import Modal from "../components/Modal";
 
 
 
@@ -94,12 +95,7 @@ export default function Login() {
                         <CircleAlert color="#999999" />
                     </div>
                 </div>
-                <div className={styles.pop_up} style={{ display: display }}>
-                    <div className={styles.container}>
-                        <BadgeCheck className={styles.icon_popup} width={100} height={100} color="#27AE60" />
-                        <p className={styles.txt_popup}>Login efetuado com sucesso! Aguarde...</p>
-                    </div>
-                </div>
+                <Modal display={display} mensagem="Login efetuado com sucesso! Aguarde..."></Modal>
             </div>
         </main>
 

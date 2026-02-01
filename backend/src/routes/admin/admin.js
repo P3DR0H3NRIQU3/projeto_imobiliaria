@@ -16,9 +16,15 @@ router.get("/validar", authMiddleware, function (req, res) {
 router.post("/logout", authMiddleware, function(req, res){
   authController.logout(req, res)
 });
-
 router.post("/register", authMiddleware, upload.array('fotos'), function (req, res) {
   imoveisController.register(req, res)
+})
+router.get("/buscar-imoveis", authMiddleware, function (req, res) {
+  imoveisController.buscarImoveis(req, res)
+})
+
+router.get("/imovel/:slug", authMiddleware, function (req, res) {
+  imoveisController.detalhesImovel(req, res)
 })
 module.exports = router;
 

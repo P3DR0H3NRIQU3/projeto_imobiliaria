@@ -1,5 +1,4 @@
 var supabase = require("../../lib/supabase");
-const path = require('path');
 async function register(dados) {
     console.log("Dados no services:", dados);
     const respostaBD = await supabase
@@ -44,8 +43,7 @@ async function register(dados) {
     return respostaBD
 }
 
-
-async function uploadFotos(id_imovel, arquivo, indice_foto) {
+async function uploadPhotos(id_imovel, arquivo, indice_foto) {
     console.log("Fotos no service:", arquivo);
     const tempoAtual = Date.now()
     const caminho = `${id_imovel}/${tempoAtual}/foto_${indice_foto}`
@@ -56,9 +54,66 @@ async function uploadFotos(id_imovel, arquivo, indice_foto) {
 
     respostaUpload.data.arquivo = arquivo
     return respostaUpload
-
 }
+
+async function registerPhotos(id_imovel, arquivo, indice) {
+    console.log("Register no service:", arquivo);
+
+    const respostaPhotos = await supabase
+        .from(`fotos_imovel`)
+        .insert([{
+            imovel_id: id_imovel,
+            url: arquivo.data.fullPath,
+            ordem_foto: indice,
+            destaque: arquivo.data.arquivo.destaque
+        }])
+
+    return respostaPhotos
+}
+
+async function deletarFotos(url) {
+    console.log("DELETAR no service:", url);
+
+    const respostaUpload = await supabase.storage.from(`fotos_imoveis`).remove(url)
+    return respostaUpload
+}
+
+async function buscarImoveis() {
+    const respostaBuscar = await supabase.from(`imovel`)
+        .select("id_imovel, titulo, valor_imovel, rua, numero, bairro, slug, destaque, fotos_imovel!inner(url)")
+        .eq("fotos_imovel.destaque", true)
+        .order('created_at', { ascending: false });
+    return respostaBuscar
+}
+
+async function atualizarImagem(id_imovel, url) {
+    const respostaUpdate = await supabase
+        .from(`fotos_imovel`)
+        .update({ img_destaque: url })
+        .eq("imovel_id", id_imovel)
+    return respostaUpdate
+}
+
+async function detalhesImovel(slug) {
+    const respostaSelect = await supabase
+        .from(`imovel`)
+        .select(`
+            *,
+            fotos_imovel(*)
+        `)
+        .eq("slug", slug)
+        .order('ordem_foto', { foreignTable: 'fotos_imovel', ascending: true })
+        .order("destaque", { foreignTable: 'fotos_imovel', ascending: false })
+        .single();
+
+    return respostaSelect
+}
+
 module.exports = {
     register,
-    uploadFotos
+    uploadPhotos,
+    registerPhotos,
+    atualizarImagem,
+    buscarImoveis,
+    detalhesImovel,
 };

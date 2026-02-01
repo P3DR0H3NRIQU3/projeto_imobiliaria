@@ -25,8 +25,8 @@ var publicImoveisRouter = require("./src/routes/public/imoveis");
 
 
 app.use(cors({
-  origin: 'http://localhost:5173', // URL do seu React
-  credentials: true // PERMITE RECEBER COOKIES
+  origin: 'http://localhost:5173', 
+  credentials: true
 }));
 
 app.use("/", homeRouter);

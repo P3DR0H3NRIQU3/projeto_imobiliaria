@@ -5,7 +5,6 @@ import { Search, MapPin, BedDouble } from 'lucide-react';
 
 
 export default function SearchInput() {
-
     const [searchParams, setSearchParams] = useSearchParams();
     
     function adicionarNaUrl(nome, valorInput) {
