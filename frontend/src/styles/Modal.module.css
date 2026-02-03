@@ -1,29 +1,36 @@
 
 .pop_up {
-    position: absolute;
     width: 100%;
-    height: 100%;
-    flex-direction: column;
+    display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    position: fixed;
+    z-index: 9999;
     background-color: rgba(0, 0, 0, 0.25);
-
+    height: 100vh;
+    inset: 0;
 }
 
 .pop_up .container {
-    margin: 0;
-    width: 25%;
-    height: 45%;
-    border-radius: 30px;
-    background-color: var(--color-green-light);
+    width: 35%;
+    height: 60%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    border: 2px solid var(--color-green);
+    border-radius: 30px;
+    
 }
+.cont_infos{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 30px;
+    height: 80%;
+    width: 80%;
 
+}
 .txt_popup{
     font-size: var(--font-size-smd);
     font-weight: var(--font-weight-500);

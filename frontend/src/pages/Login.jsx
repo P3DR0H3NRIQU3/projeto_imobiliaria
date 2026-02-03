@@ -2,7 +2,7 @@
 import styles from "../styles/Login.module.css";
 import Header from "../components/Header";
 import { useState } from 'react';
-import { CircleAlert, BadgeCheck } from "lucide-react";
+import { CircleAlert } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import Modal from "../components/Modal";
 
@@ -15,7 +15,6 @@ export default function Login() {
     const [status, setStatus] = useState('')
     const [display, setDisplay] = useState('none')
     const [mensagemErro, setMensagemErro] = useState("Erro ao fazer login")
-
 
     function checarCampos() {
         if (email === "" || password === "") {
@@ -30,7 +29,6 @@ export default function Login() {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-
             },
             credentials: "include",
             body: JSON.stringify({
@@ -45,7 +43,7 @@ export default function Login() {
                     setDisplay("flex")
                     setTimeout(() => {
                         navegarAdmin()
-                    }, 2500);
+                    }, 2500); 
                 } else {
                     if (response.status == 401) {
                         setStatus("erro")

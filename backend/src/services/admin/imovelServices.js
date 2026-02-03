@@ -45,8 +45,7 @@ async function register(dados) {
 
 async function uploadPhotos(id_imovel, arquivo, indice_foto) {
     console.log("Fotos no service:", arquivo);
-    const tempoAtual = Date.now()
-    const caminho = `${id_imovel}/${tempoAtual}/foto_${indice_foto}`
+    const caminho = `${id_imovel}/foto_${indice_foto}`
 
     const respostaUpload = await supabase.storage.from(`fotos_imoveis`).upload(caminho, arquivo.buffer, {
         contentType: arquivo.mimetype,
@@ -109,6 +108,46 @@ async function detalhesImovel(slug) {
     return respostaSelect
 }
 
+async function alterar(id_imovel, campo, valor) {
+    const respostaUpdate = await supabase
+        .from(`imovel`)
+        .update({ [campo]: valor })
+        .eq("id_imovel", id_imovel)
+
+    return respostaUpdate
+}
+async function excluir(id_imovel) {
+    const deletandoImagensBd = await supabase
+        .from(`fotos_imovel`)
+        .delete()
+        .eq("imovel_id", id_imovel)
+
+    console.log("Resposta excluindo do bd", deletandoImagensBd);
+
+    const listarImagensStorage = await supabase
+        .storage
+        .from('fotos_imoveis')
+        .list(id_imovel)
+
+    console.log("listarImagensStorage: ", listarImagensStorage);
+    
+    const caminhos = listarImagensStorage.data.map(arquivo => `${id_imovel}/${arquivo.name}`)
+    
+    console.log("caminhos: ", caminhos);
+
+    const deletandoImagensStorage = await supabase.storage
+        .from(`fotos_imoveis`)
+        .remove(caminhos)
+
+    console.log("Resposta excluindo do storage", deletandoImagensStorage);
+
+    const respostaDelete = await supabase
+        .from(`imovel`)
+        .delete()
+        .eq("id_imovel", id_imovel)
+    return respostaDelete
+}
+
 module.exports = {
     register,
     uploadPhotos,
@@ -116,4 +155,6 @@ module.exports = {
     atualizarImagem,
     buscarImoveis,
     detalhesImovel,
+    alterar,
+    excluir
 };

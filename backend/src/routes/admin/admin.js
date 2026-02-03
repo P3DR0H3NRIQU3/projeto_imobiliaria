@@ -19,6 +19,12 @@ router.post("/logout", authMiddleware, function(req, res){
 router.post("/register", authMiddleware, upload.array('fotos'), function (req, res) {
   imoveisController.register(req, res)
 })
+router.post("/imovel/alterar", authMiddleware, function (req, res) {
+  imoveisController.alterar(req, res)
+})
+router.post("/imovel/excluir", authMiddleware, function (req, res) {
+  imoveisController.excluir(req, res)
+})
 router.get("/buscar-imoveis", authMiddleware, function (req, res) {
   imoveisController.buscarImoveis(req, res)
 })

@@ -144,22 +144,69 @@ async function detalhesImovel(req, res) {
 
     var slug = req.params.slug
     console.log("SLUG", slug);
-    
+
     if (!slug) {
-        return res.status(400).json({erro: `O slug está undefined.`})
+        return res.status(400).json({ erro: `O slug está undefined.` })
     }
     const respostaDetalhes = await imovelServices.detalhesImovel(slug)
 
     console.log(respostaDetalhes);
     if (respostaDetalhes.error) {
-        return res.status(400).json({erro: `Erro ao atualizar a foto: ${respostaDetalhes.error} no banco `})
+        return res.status(400).json({ erro: `Erro ao atualizar a foto: ${respostaDetalhes.error} no banco ` })
     }
+
+    return res.status(200).json({ dados: respostaDetalhes.data, message: `Sucesso ao buscar detalhes!` })
+}
+async function alterar(req, res) {
+    if (!req.body) {
+        return res.status(400).json({ erro: `O body está ${req.body}.` })
+    }
+    var id_imovel = req.body.id_imovel
+    var campo = req.body.campo
+    var valor = req.body.valor
+    console.log("VALOR",valor);
     
-    return res.status(200).json({dados: respostaDetalhes.data ,message: `Sucesso ao buscar detalhes!`})
+
+
+    if (!id_imovel) {
+        return res.status(400).json({ erro: `O id_imovel está ${id_imovel}.` })
+    } else if (!campo) {
+        return res.status(400).json({ erro: `O campo está ${campo}.` })
+    } else if (!valor) {
+        return res.status(400).json({ erro: `O valor está ${valor}.` })
+    }
+
+    var respostaAlterar = await imovelServices.alterar(id_imovel, campo, valor)
+    console.log(respostaAlterar);
+    
+    if (respostaAlterar.error) {
+        return res.status(400).json({ erro: `Erro ao editar o campo ${campo}! ` })
+    }
+    return res.status(200).json({ message: `Sucesso ao editar o campo ${campo}!` })
+}
+
+async function excluir(req, res) {
+    if (!req.body) {
+        return res.status(400).json({ erro: `O body está ${req.body}.` })
+    }
+    var id_imovel = req.body.id_imovel
+
+    if (!id_imovel) {
+        return res.status(400).json({ erro: `O id_imovel está ${id_imovel}.` })
+    } 
+    var respostaExcluir = await imovelServices.excluir(id_imovel)
+    console.log(respostaExcluir);
+    
+    if (respostaExcluir.error) {
+        return res.status(400).json({ erro: `Erro ao excluir o imovel! ` })
+    }
+    return res.status(200).json({ message: `Sucesso ao editar o imovel!` })
 }
 
 module.exports = {
     register,
     buscarImoveis,
-    detalhesImovel
+    detalhesImovel,
+    alterar,
+    excluir
 }
