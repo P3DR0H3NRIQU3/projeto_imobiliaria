@@ -1,9 +1,11 @@
-.home_admin{
+.home_admin {
     width: 100%;
     min-height: 100vh;
     height: auto;
+    overflow-x: hidden;
 }
-.container{
+
+.container {
     width: 100%;
     gap: 5vh;
     height: auto;
@@ -14,17 +16,17 @@
     align-items: center;
 }
 
-.txt_name{
+.txt_name {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
     font-size: var(--font-size-lmd);
     font-weight: var(--font-weight-500);
     width: 80%;
     height: 10vh
 }
-.btn_cadastrar{
+
+.btn_cadastrar {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -34,30 +36,35 @@
     border-radius: 30px;
     background-color: var(--color-white);
 }
-.txt_btn{
+
+.txt_btn {
     font-weight: var(--font-weight-500);
-    
+
     font-size: var(--font-size-smd);
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
-.cont_txts{
+
+.cont_txts {
     width: 80%;
     height: 5vh;
     display: flex;
     flex-direction: column;
-    
+
     justify-content: space-evenly;
     align-items: center;
 }
-.txt_imoveis{
+
+.txt_imoveis {
     font-weight: var(--font-weight-500);
     font-size: var(--font-size-lmd);
-    
+
 }
-.subtxt_imoveis{
+
+.subtxt_imoveis {
     font-size: var(--font-size-sm);
 }
-.cont_cards{
+
+.cont_cards {
     display: flex;
     width: 80%;
     justify-content: space-evenly;
@@ -65,7 +72,8 @@
     gap: 5vw;
     padding: 5vh;
 }
-.card{
+
+.card {
     width: auto;
     height: auto;
     display: flex;
@@ -73,37 +81,111 @@
     justify-content: center;
     align-items: center;
 }
-.img_card{
+
+.img_card {
     width: 20vw;
     height: auto;
     border-radius: 30px;
 }
-.cont_txt{
+
+.cont_txt {
     width: 20vw;
     height: 40%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-.desc_imovel{
+
+.desc_imovel {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-500);
     color: var(--color-gray-dark);
     width: 15vw;
 }
-.price_imovel{
+
+.price_imovel {
     font-size: var(--font-size-md);
     font-weight: var(--font-weight-bd);
     color: var(--color-black);
 }
-.despesas_imovel{
+
+.despesas_imovel {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bd);
     color: var(--color-black);
 }
-.end_imovel{
+
+.end_imovel {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-500);
     color: var(--color-gray-dark);
     width: 70%;
 }
+
+@media (max-width: 1280px) {
+    .txt_name {
+        width: 90%;
+        height: 10vh;
+        text-align: center;
+    }
+
+    .btn_cadastrar {
+        width: 80%;
+        height: 10vh;
+
+    }
+
+    .cont_cards {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+    .card{
+        justify-content: space-evenly;
+        height: 50vh;
+    }
+    .img_card{
+        width: 80%;
+    }
+    .cont_txt{
+        width: 80%;
+    }
+}
+
+@media (min-width: 1280px) {
+    .txt_name {
+        width: 90%;
+        text-align: center;
+    }
+
+    .btn_cadastrar {
+        width: 40%;
+        height: 8vh;
+    }
+
+    .cont_cards {
+        width: 90%;
+        gap: 4vw;
+        padding: 4vh;
+        flex-direction: row; 
+    }
+
+    .img_card {
+        width: 22vw;
+    }
+
+    .cont_txt {
+        width: 22vw;
+    }
+
+    .desc_imovel {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1024px) {}
+
+
+@media (max-width: 768px) {}
+
+@media (max-width: 480px) {}

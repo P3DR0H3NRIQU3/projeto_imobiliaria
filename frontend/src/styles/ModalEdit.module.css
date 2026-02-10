@@ -1,0 +1,141 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+
+.modal_edit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 9999;
+    min-height: 100dvh;
+    background-color: rgba(0, 0, 0, 0.274);
+    inset: 0;
+}
+
+.container {
+    width: 50%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 30px;
+    background-color: var(--color-white);
+}
+
+.txt_titulo {
+    font-weight: var(--font-weight-bd);
+    font-size: var(--font-size-md);
+}
+
+.input_edit_info {
+    width: 100%;
+    height: 7.5vh;
+    border-radius: 30px;
+    border: 1px solid var(--color-gray);
+    padding-left: 2vh;
+}
+
+.input_edit {
+    width: 70%;
+    height: 7.5vh;
+    border-radius: 30px;
+    border: 1px solid var(--color-gray);
+    padding-left: 2vh;
+}
+
+.cont_input {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.cont_btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 70%;
+    height: 7.5vh;
+}
+
+#btn_cancelar {
+    background-color: var(--color-gray);
+    font-weight: var(--font-weight-bd);
+    width: 40%;
+    height: 70%;
+    border-radius: 20px;
+}
+
+#btn_confirmar {
+    background-color: var(--color-green);
+    color: var(--color-white);
+    font-weight: var(--font-weight-bd);
+    width: 40%;
+    height: 70%;
+    border-radius: 20px;
+}
+
+@media (max-width: 1280px) {
+    .container {
+        width: 85%;
+    }
+}
+@media (max-width: 1024px) {
+    .container {
+        width: 90%;
+    }
+
+    .cont_input,
+    .cont_btns {
+        width: 80%;
+    }
+}
+@media (max-width: 768px) {
+    .container,
+    .cont_btns,
+    .cont_titulo,
+    .cont_imgs,
+    .cont_info_valor,
+    .cont_info_maps,
+    .cont_desc_corretor,
+    .descricao,
+    .corretor {
+        width: 100%;
+        max-width: 100%;
+    }
+    .container {
+        width: 95%;
+        max-height: 95dvh;
+        border-radius: 20px;
+        padding: 3vh 0;
+    }
+
+    .cont_input,
+    .cont_btns {
+        width: 90%;
+    }
+
+    .cont_btns {
+        flex-direction: column;
+        gap: 2vh;
+        height: auto;
+    }
+
+    #btn_cancelar,
+    #btn_confirmar {
+        width: 100%;
+        height: 6.5vh;
+    }
+
+    .txt_titulo {
+        text-align: center;
+        font-size: var(--font-size-smd);
+    }
+}

@@ -190,7 +190,7 @@ async function excluir(req, res) {
         return res.status(400).json({ erro: `O body está ${req.body}.` })
     }
     var id_imovel = req.body.id_imovel
-
+    
     if (!id_imovel) {
         return res.status(400).json({ erro: `O id_imovel está ${id_imovel}.` })
     } 
@@ -200,7 +200,38 @@ async function excluir(req, res) {
     if (respostaExcluir.error) {
         return res.status(400).json({ erro: `Erro ao excluir o imovel! ` })
     }
+    return res.status(200).json({ message: `Sucesso ao excluir o imovel!` })
+}
+
+async function editImovel(req, res) {
+    var id_imovel = req.params.id
+    var campo = req.body.campo
+    var valor = req.body.valor
+    console.log("ENTREI NO UPDATE");
+    
+    if (!id_imovel) {
+        return res.status(400).json({ erro: `O id_imovel está ${id_imovel}.` })
+    } else if(!campo) {
+        return res.status(400).json({ erro: `O campo está ${campo}.` })
+    } else if (!valor) {
+        return res.status(400).json({ erro: `O valor está ${valor}.` })
+    }
+    var json = {}
+    if (campo === "info") {
+        
+        json = valor
+    } else{
+        json = {
+            campo: valor
+        }
+    }
+    const respostaEdit = await imovelServices.editarImovel(id_imovel, json)
+
+    if (respostaEdit.error) {
+        return res.status(400).json({ erro: `Erro ao editar o imovel! ` })
+    }
     return res.status(200).json({ message: `Sucesso ao editar o imovel!` })
+
 }
 
 module.exports = {
@@ -208,5 +239,6 @@ module.exports = {
     buscarImoveis,
     detalhesImovel,
     alterar,
-    excluir
+    excluir,
+    editImovel
 }

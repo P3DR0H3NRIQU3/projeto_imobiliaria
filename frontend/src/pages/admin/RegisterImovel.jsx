@@ -3,7 +3,6 @@ import HeaderAdmin from "../../components/HeaderAdmin";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from "swiper/react";
-import ModalLogout from "../../components/ModalLogout";
 export default function RegisterImovel() {
     var navigate = useNavigate()
     const [imagens, setImagens] = useState([]);

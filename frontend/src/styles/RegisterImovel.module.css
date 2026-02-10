@@ -2,6 +2,7 @@
     width: 100%;
     min-height: 100vh;
     height: auto;
+    overflow-x: hidden;
 }
 .container{
     width: 100%;
@@ -139,7 +140,7 @@
     justify-content: space-around;
 }
 .swipper_slide {
-  width: 280px;  /* Agora isso vai funcionar! */
+  width: 280px; 
   height: 100%; 
   margin: 1vh;
   display: flex;
@@ -162,4 +163,63 @@
 }
 .span_asterisco{
     color: var(--color-orange);
+}
+
+@media (max-width: 1024px) {
+    .form_register{
+        width: 70%;
+    }
+    .txt_register{
+        font-size: var(--font-size-md);
+    }
+    .cont_checkbox{
+        flex-direction: column;
+    }
+    .cont_inputs{
+        flex-direction: column;
+        gap: 3vh;
+        width: 85%;
+    }
+    .input{
+        width: 85%;
+    }
+    .cont_inputs .input{
+        height: 10vh;
+        width: 100%;
+    }
+    .check{
+        width: 85%;
+    }
+    .radio{
+        justify-content: space-between;
+        width: 100%;
+    }
+    .btn_cadastrar{
+        width: 85%;
+    }
+}
+
+
+@media (max-width: 768px) {}
+
+@media (max-width: 480px) {
+    .form_register {
+        width: 95%;
+        padding: 3vh;
+        border-radius: 20px;
+    }
+
+    .txt_register {
+        font-size: var(--font-size-sm);
+    }
+
+    .btn_cadastrar {
+        height: 8vh;
+        font-size: var(--font-size-sm);
+    }
+
+    .inputs_register,
+    .select select {
+        font-size: var(--font-size-sm);
+    }
 }

@@ -148,6 +148,14 @@ async function excluir(id_imovel) {
     return respostaDelete
 }
 
+async function editarImovel(id_imovel, json) {
+    const respostaBD = await supabase   
+    .from("imovel")
+    .update(json    )
+    .eq("id_imovel", id_imovel)
+
+    return respostaBD
+}
 module.exports = {
     register,
     uploadPhotos,
@@ -156,5 +164,6 @@ module.exports = {
     buscarImoveis,
     detalhesImovel,
     alterar,
-    excluir
+    excluir,
+    editarImovel
 };

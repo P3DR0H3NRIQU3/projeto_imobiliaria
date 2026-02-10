@@ -22,11 +22,15 @@ router.post("/register", authMiddleware, upload.array('fotos'), function (req, r
 router.post("/imovel/alterar", authMiddleware, function (req, res) {
   imoveisController.alterar(req, res)
 })
-router.post("/imovel/excluir", authMiddleware, function (req, res) {
+router.delete("/imovel/excluir", authMiddleware, function (req, res) {
   imoveisController.excluir(req, res)
 })
 router.get("/buscar-imoveis", authMiddleware, function (req, res) {
   imoveisController.buscarImoveis(req, res)
+})
+
+router.put("/imovel/editar/:id", authMiddleware, function (req, res) {
+  imoveisController.editImovel(req, res)
 })
 
 router.get("/imovel/:slug", authMiddleware, function (req, res) {

@@ -3,13 +3,37 @@ import Footer from "../../components/Footer";
 import styles from "../../styles/ImovelAdmin.module.css";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { EyeIcon, TrashIcon, BedDoubleIcon, BathIcon, RulerDimensionLineIcon, HouseHeart, LucideMapPinHouse, ArrowRightIcon, ShareIcon } from 'lucide-react';
+import {
+    EyeIcon,
+    TrashIcon,
+    BedDoubleIcon,
+    BathIcon,
+    RulerDimensionLineIcon,
+    HouseHeart,
+    LucideMapPinHouse,
+    ArrowRightIcon,
+    ShareIcon,
+    Edit,
+    Flame,
+    Utensils,
+    Home,
+    Wind,
+    Dumbbell,
+    Trees,
+    PartyPopper,
+    ShieldCheck,
+    Accessibility,
+    Car,
+    DoorOpen
+} from 'lucide-react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
 import Modal from "../../components/Modal";
+import ModalEdit from "../../components/ModalEdit";
+
 
 
 
@@ -17,11 +41,70 @@ export default function ImovelAdmin() {
     const params = useParams()
     var navigate = useNavigate()
     var [imovel, setImovel] = useState({});
+
     var [urlEndereco, setUrlEndereco] = useState("");
     var [infosPopUp, setInfosPopUp] = useState({})
     var [infoModal, setInfoModal] = useState({})
+    var [infoModalEdit, setInfoModalEdit] = useState({})
     var [display, setDisplay] = useState("none")
-
+    var [modalEditOpen, setModalEditOpen] = useState(false)
+    var caracteristicasImovel = [
+        {
+            campo: "churrasqueira",
+            label: "Churrasqueira",
+            icon: Flame,
+        },
+        {
+            campo: "area_gourmet",
+            label: "Área gourmet",
+            icon: Utensils,
+        },
+        {
+            campo: "varanda",
+            label: "Varanda",
+            icon: Home,
+        },
+        {
+            campo: "ar_condicionado",
+            label: "Ar-condicionado",
+            icon: Wind,
+        },
+        {
+            campo: "academia",
+            label: "Academia",
+            icon: Dumbbell,
+        },
+        {
+            campo: "area_lazer",
+            label: "Área de lazer",
+            icon: Trees,
+        },
+        {
+            campo: "salao_festas",
+            label: "Salão de festas",
+            icon: PartyPopper,
+        },
+        {
+            campo: "portaria_24h",
+            label: "Portaria 24h",
+            icon: ShieldCheck,
+        },
+        {
+            campo: "possui_elevador",
+            label: "Elevador",
+            icon: Accessibility,
+        },
+        {
+            campo: "vagas_garagem",
+            label: "Garagem",
+            icon: Car,
+        },
+        {
+            campo: "mobiliado",
+            label: "Mobiliado",
+            icon: DoorOpen,
+        },
+    ];
     async function buscarDados() {
         console.log(params.slug)
         var slug = params.slug.replace("slug=", "")
@@ -52,7 +135,6 @@ export default function ImovelAdmin() {
         setInfosPopUp({})
     }
 
-
     async function alterarImovel(id_imovel, campo, novo_valor) {
         novo_valor = novo_valor.toLowerCase()
         const respostaBD = await fetch(`http://localhost:3333/admin/imovel/alterar`,
@@ -71,8 +153,8 @@ export default function ImovelAdmin() {
             }
         )
         console.log("Dados recebido:", respostaBD);
-        const respostaBDJson = await respostaBD.json()
         desativarPopUp()
+        const respostaBDJson = await respostaBD.json()
         if (respostaBD.ok) {
             console.log("respostaBDJson", respostaBDJson);
             setInfoModal({
@@ -100,7 +182,7 @@ export default function ImovelAdmin() {
     async function excluirImovel(id_imovel) {
         const respostaBD = await fetch(`http://localhost:3333/admin/imovel/excluir`,
             {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -140,16 +222,18 @@ export default function ImovelAdmin() {
             return "Disponivel"
         }
     }
+
+
     return (
         <div className={styles.imovel}>
             <HeaderAdmin />
 
-            {Object.keys(infoModal).length > 0 && infoModal.tipo === "error" ?
+            {Object.entries(infoModal).length > 0 && infoModal.tipo === "error" ?
                 <Modal display={display} tipo="error" mensagem={infoModal.mensagem} />
                 :
                 <Modal display={display} tipo="ok" mensagem={infoModal.mensagem} />
             }
-            {Object.keys(infosPopUp).length > 0 &&
+            {Object.entries(infosPopUp).length > 0 &&
                 <div className={styles.cont_aviso} onClick={e => { desativarPopUp }}>
                     <div className={styles.pop_up_aviso}>
                         {infosPopUp.campo === "imovel" ?
@@ -169,6 +253,9 @@ export default function ImovelAdmin() {
                         </div>
                     </div>
                 </div>
+            }
+            {modalEditOpen &&
+                <ModalEdit campo={infoModalEdit.campo} valor={infoModalEdit.valor} id_imovel={infoModalEdit.id_imovel} onClose={() => { setModalEditOpen(false) }} onAccept={() => { setModalEditOpen(false); buscarDados() }} onError={() => { alert(`Não foi possível editar o campo ${infoModalEdit.campo}`) }} />
             }
             {Object.keys(imovel).length > 0 &&
                 <div className={styles.container}>
@@ -191,6 +278,9 @@ export default function ImovelAdmin() {
                             :
                             <p className={styles.txt_id} style={{ backgroundColor: "#D9FDA0", color: "#00FF09" }}>{imovel.status?.toUpperCase()}</p>
                         }
+                        <button className={styles.btn_edit_titulo} onClick={() => { setModalEditOpen(true); setInfoModalEdit({ campo: "titulo", valor: imovel.titulo, id_imovel: imovel.id_imovel }) }}>
+                            <Edit color="#27ae60" />
+                        </button>
                     </div>
                     <div className={styles.cont_imgs}>
                         <Swiper
@@ -223,7 +313,13 @@ export default function ImovelAdmin() {
                     </div>
                     <div className={styles.cont_info_valor}>
                         <div className={styles.cont_info_maps}>
-                            <p className={styles.txt_info}>Informações do imóvel</p>
+                            <div className={styles.cont_info_edit}>
+
+                                <p className={styles.txt_info}>Informações do imóvel</p>
+                                <button className={styles.btn_edit_titulo} onClick={() => { setModalEditOpen(true); setInfoModalEdit({ campo: "info", valor: { tipo_imovel: imovel.tipo_imovel, quartos: imovel.quartos, banheiros: imovel.banheiros, area_m2: imovel.area_m2 }, id_imovel: imovel.id_imovel }) }}>
+                                    <Edit color="#27ae60" />
+                                </button>
+                            </div>
                             <div className={styles.infos}>
                                 <div className={styles.info}>
                                     <HouseHeart color="#27ae60" width={40} height={50} />
@@ -245,6 +341,13 @@ export default function ImovelAdmin() {
                                     <RulerDimensionLineIcon color="#27ae60" width={40} height={50} />
                                     <div className={styles.desc_info}><span className={styles.span_info}>{imovel.area_m2}m²</span> de área</div>
                                 </div>
+                                {caracteristicasImovel.map(caracteristica => (
+                                    imovel[caracteristica.campo] ?
+                                    <div className={styles.info}>
+                                        <caracteristica.icon color="#27ae60" width={40} height={50} />
+                                        <div className={styles.desc_info}><span className={styles.span_info}>{caracteristica.label}</span></div>
+                                    </div> :  null
+                                ))}
                             </div>
                             {urlEndereco != "" ?
                                 <a className={styles.maps} href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(urlEndereco)}`}>
@@ -300,6 +403,6 @@ export default function ImovelAdmin() {
                     <Footer />
                 </div>
             }
-        </div>
+        </div >
     )
 }

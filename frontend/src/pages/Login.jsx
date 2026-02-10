@@ -42,7 +42,7 @@ export default function Login() {
                     setStatus("sucesso")
                     setDisplay("flex")
                     setTimeout(() => {
-                        navegarAdmin()
+                        navigate('/admin')
                     }, 2500); 
                 } else {
                     if (response.status == 401) {
@@ -65,12 +65,6 @@ export default function Login() {
         function sumirMensagem() {
             setStatus("")
         }
-
-        function navegarAdmin() {
-            navigate('/admin')
-
-        }
-
     }
     return (
         <main className={styles.login}>
@@ -93,7 +87,7 @@ export default function Login() {
                         <CircleAlert color="#999999" />
                     </div>
                 </div>
-                <Modal display={display} mensagem="Login efetuado com sucesso! Aguarde..."></Modal>
+                <Modal display={display} mensagem="Login efetuado com sucesso! Aguarde..." tipo="ok"></Modal>
             </div>
         </main>
 

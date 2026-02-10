@@ -1,7 +1,7 @@
 import styles from "../styles/Header.module.css";
 import { User } from "lucide-react";
 import { useState, useEffect } from 'react';
-import ModalLogout from "./ModalLogout";
+import Modal from "./Modal";
 
 export default function HeaderAdmin() {
 
@@ -29,7 +29,7 @@ export default function HeaderAdmin() {
 
             </div>
             { logout === true &&
-                <ModalLogout mensagem="Você saiu da sua conta" icon="logout" />
+                <Modal mensagem="Você saiu da sua conta" display="flex" tipo="logout" />
             }
         </div>
     )
